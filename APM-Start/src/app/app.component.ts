@@ -4,7 +4,7 @@ import { Component } from "@angular/core";
   selector: 'pm-root', /*the name of the component when we used as html directive */
   template: ` 
   <div><h1>{{pageTitle}}</h1>
-    <div>My First Component</div>
+    <pm-products></pm-products>
   </div>` /* definition of the html file that we want to display */
 })
 export class AppComponent{
