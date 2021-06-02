@@ -13,8 +13,10 @@ export class ProductListComponent implements OnInit{
     imageWidth: number = 50;
     imageMargin: number = 2;
     showImage: boolean = false;
+    errorMessage: string = '';
     // replace this line by getter and setter listFilter: string = 'cart';
     private _listFilter: string = ''; //initialize _listFilter as an empty string
+    sub: any;
     get listFilter(): string {
         return this._listFilter;
     }
@@ -48,9 +50,18 @@ export class ProductListComponent implements OnInit{
 
     //set the initial value of setter
     ngOnInit(): void {
-        this.products = this.productService.getProducts();
-        this.filteredProducts = this.products;
-        this.listFilter = 'cart'
+        this.sub = this.productService.getProducts().subscribe({
+            next: products => {
+                this.products = products;
+                this.filteredProducts = this.products;
+            },
+            error: err => this.errorMessage = err
+        });
+        this.filteredProducts = this.products
+     }
+
+    ngOnDestroy(): void {
+        this.sub.unsubscribe();
     }
 
     onRatingClicked(message:string):void {
